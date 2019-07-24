@@ -1,0 +1,47 @@
+
+<script>
+function sendrequest(){
+	alert("hello")
+	var xhttp = new XMLHttpRequest();
+	xhttp.onload = function() {
+		var chargespermile=1.23
+		//alert(xhttp.responseText)
+	    if (this.status == 200) {
+			data=JSON.parse(xhttp.responseText);
+			document.getElementById("distance").innerHTML = data.rows[0].elements[0].distance.text;
+			document.getElementById("time").innerHTML     = data.rows[0].elements[0].duration.text;
+			document.getElementById("rate").innerHTML     = chargespermile;
+			document.getElementById("bill").value  = parseFloat(data.rows[0].elements[0].distance.text) * chargespermile;
+			document.getElementById("submit").style.visibility="visible";
+			document.body.appendChild(element);
+	       alert(JSON.parse(data).destination_addresses)
+	    }
+	}
+    var origin=document.getElementById("addressfrom").value;
+    var destination=document.getElementById("addressto").value;
+	xhttp.open("GET", "http://localhost:8080/find/"+origin+"/"+destination, true);
+	xhttp.send();
+}
+</script>
+
+
+
+<br>
+<bR>
+<span id="test"> <span><br>
+<form action="http://localhost:8080/SaveBooking" method="post">
+	From:<input id="addressfrom" name="addressfrom"><br>
+	To:<input id="addressto" name="addressto"><br>
+	<input type="button" value="Ok" onclick="sendrequest()">
+
+
+	Distance:<span id="distance" name="distance"></span><br>
+	Time:<span id="time" name="time"></span><br>
+	Rate:<span id="rate" name="rate"></span><br>
+	Charges:<input id="bill" name="bill"></input><br>
+	<input type="hidden1" id="bill" name="username" value="">
+	<input type="submit" id="submit" value="book" style="visibility:hidden">
+</form>
+
+
+
